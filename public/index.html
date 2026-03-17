@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>ঈদ সালামি - আপনার লিংক তৈরি করুন</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -138,6 +138,18 @@
                 });
             }
         });
+
+        // কপি লিংক ফাংশন
+        window.copyLink = function() {
+            const link = document.getElementById('generatedLink')?.textContent;
+            if (link) copyToClipboard(link);
+        };
+
+        // ড্যাশবোর্ডে যাওয়ার ফাংশন
+        window.goToDashboard = function() {
+            const username = localStorage.getItem('myUsername');
+            window.location.href = username ? `/dashboard.html?user=${username}` : '/dashboard.html';
+        };
     </script>
 </body>
 </html>
