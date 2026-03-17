@@ -6,34 +6,213 @@
     <title>ঈদ সালামি পাঠান</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .salami-container { max-width: 600px; margin: 40px auto; background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
-        .receiver-note { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 20px; border-radius: 10px; margin-bottom: 30px; font-size: 1.2rem; text-align: center; }
-        .payment-info { background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0; }
-        .payment-number { font-size: 24px; font-weight: bold; padding: 10px; background: white; border-radius: 8px; text-align: center; margin: 10px 0; border: 2px dashed #764ba2; }
-        .amount-selector { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 20px 0; }
-        .amount-btn { padding: 15px; border: 2px solid #e0e0e0; border-radius: 10px; background: white; cursor: pointer; transition: all 0.3s; }
-        .amount-btn.selected { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-color: #764ba2; }
-        .instructions { background: #e3f2fd; padding: 20px; border-radius: 10px; margin: 20px 0; }
-        .instructions ol { margin-left: 20px; }
+        .salami-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .receiver-note {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+            text-align: center;
+            word-break: break-word;
+        }
+
+        .payment-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .payment-number {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            text-align: center;
+            margin: 10px 0;
+            border: 2px dashed #764ba2;
+            word-break: break-all;
+        }
+
+        .payment-card {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: white;
+        }
+
+        .amount-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .amount-btn {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+
+        .amount-btn.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #764ba2;
+        }
+
+        .amount-btn:hover {
+            border-color: #764ba2;
+        }
+
+        .custom-amount {
+            margin: 20px 0;
+        }
+
+        .custom-amount input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 18px;
+        }
+
+        .instructions {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+        }
+
+        .instructions li {
+            margin: 10px 0;
+        }
+
+        .copy-btn {
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #764ba2;
+            box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1);
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #764ba2;
+            border: 2px solid #764ba2;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: #764ba2;
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
+    <!-- Developer Credit - Top Right -->
+    <div class="developer-credit">
+        Developed by <strong>Md. Fojle Rabby</strong>
+    </div>
+
     <div class="salami-container">
-        <h1 style="text-align: center;">🕌 ঈদ সালামি</h1>
+        <h1 style="text-align: center; color: #333;">🕌 ঈদ সালামি</h1>
         
+        <!-- Receiver Note - এই অংশে নোট দেখাবে -->
         <div class="receiver-note" id="receiverNote">লোড হচ্ছে...</div>
 
         <div class="payment-info">
-            <h3>বিকাশ (Send Money)</h3>
-            <div class="payment-number" id="bkashNumber">-</div>
-            <button class="btn-secondary" onclick="copyBkash()">📋 কপি করুন</button>
+            <!-- বিকাশ সেকশন -->
+            <div class="payment-card" id="bkashSection">
+                <h3>📱 বিকাশ (Send Money)</h3>
+                <div class="payment-number" id="bkashNumber">-</div>
+                <button class="btn-secondary copy-btn" id="copyBkashBtn">📋 বিকাশ নাম্বার কপি করুন</button>
+            </div>
             
-            <h3 style="margin-top: 20px;">নগদ</h3>
-            <div class="payment-number" id="nagadNumber">-</div>
-            <button class="btn-secondary" onclick="copyNagad()">📋 কপি করুন</button>
+            <!-- নগদ সেকশন -->
+            <div class="payment-card" id="nagadSection">
+                <h3>📱 নগদ (Send Money)</h3>
+                <div class="payment-number" id="nagadNumber">-</div>
+                <button class="btn-secondary copy-btn" id="copyNagadBtn">📋 নগদ নাম্বার কপি করুন</button>
+            </div>
         </div>
 
-        <h3>সালামির পরিমাণ নির্বাচন করুন</h3>
+        <h3>💰 সালামির পরিমাণ নির্বাচন করুন</h3>
         <div class="amount-selector">
             <button class="amount-btn" data-amount="100">১০০ (ছোট)</button>
             <button class="amount-btn" data-amount="200">২০০ (মোটামুটি)</button>
@@ -41,9 +220,8 @@
             <button class="amount-btn" data-amount="1000">১০০০ (ওয়াও)</button>
         </div>
 
-        <div class="form-group">
-            <label>অন্যান্য পরিমাণ (টাকা)</label>
-            <input type="number" id="customAmount" placeholder="যেমন: 300">
+        <div class="custom-amount">
+            <input type="number" id="customAmount" placeholder="অন্যান্য পরিমাণ (টাকা)">
         </div>
 
         <div class="form-group">
@@ -58,11 +236,11 @@
 
         <div class="form-group">
             <label>নোট লিখুন (ঐচ্ছিক)</label>
-            <textarea id="senderNote" placeholder="কিছু বলুন..."></textarea>
+            <textarea id="senderNote" placeholder="ঈদ মোবারক! আপনার জন্য শুভকামনা..."></textarea>
         </div>
 
         <div class="instructions">
-            <h4>📱 যেভাবে টাকা পাঠাবেন:</h4>
+            <h4>📌 যেভাবে টাকা পাঠাবেন:</h4>
             <ol>
                 <li>উপরের নাম্বারে বিকাশ/নগদে Send Money করুন</li>
                 <li>টাকা পাঠানোর পর নিচের বাটনে ক্লিক করুন</li>
@@ -75,26 +253,26 @@
 
     <script src="script.js"></script>
     <script>
+        // সালামি লিংক পেজের জন্য আলাদা ফাংশন
         let currentUser = null;
         let selectedAmount = null;
 
         document.addEventListener('DOMContentLoaded', async function() {
-            const username = window.location.pathname.split('/').pop();
+            // URL থেকে ইউজার নাম নিন
+            const urlParams = new URLSearchParams(window.location.search);
+            const username = urlParams.get('user');
+            
+            console.log('Salami page for user:', username);
+            
             if (!username) {
                 showToast('ইউজার নাম পাওয়া যায়নি', 'error');
                 return;
             }
 
-            // Load user info
-            const user = await getUserInfo(username);
-            if (user) {
-                currentUser = user;
-                document.getElementById('receiverNote').textContent = user.note || 'ঈদ মোবারক!';
-                document.getElementById('bkashNumber').textContent = user.bkashNumber;
-                document.getElementById('nagadNumber').textContent = user.nagadNumber || '-';
-            }
+            // ইউজারের তথ্য লোড করুন
+            await loadUserInfo(username);
 
-            // Amount selection
+            // অ্যামাউন্ট সিলেক্ট করার ইভেন্ট
             document.querySelectorAll('.amount-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
@@ -109,7 +287,7 @@
                 selectedAmount = null;
             });
 
-            // Send salami
+            // সেন্ড বাটন ক্লিক ইভেন্ট
             document.getElementById('sendSalamiBtn').addEventListener('click', async function() {
                 let amount = selectedAmount;
                 const customAmount = document.getElementById('customAmount').value;
@@ -130,15 +308,74 @@
                 };
 
                 const result = await sendSalami(transactionData);
-                if (result) {
+                if (result?.success) {
                     showToast('✅ সালামি পাঠানোর জন্য ধন্যবাদ!', 'success');
                     setTimeout(() => window.location.href = '/', 2000);
                 }
             });
+
+            // কপি বাটনের ইভেন্ট
+            document.getElementById('copyBkashBtn').addEventListener('click', function() {
+                const bkash = document.getElementById('bkashNumber').textContent;
+                if (bkash && bkash !== '-') copyToClipboard(bkash);
+            });
+
+            document.getElementById('copyNagadBtn').addEventListener('click', function() {
+                const nagad = document.getElementById('nagadNumber').textContent;
+                if (nagad && nagad !== '-') copyToClipboard(nagad);
+            });
         });
 
-        function copyBkash() { if (currentUser) copyToClipboard(currentUser.bkashNumber); }
-        function copyNagad() { if (currentUser?.nagadNumber) copyToClipboard(currentUser.nagadNumber); }
+        // ইউজারের তথ্য লোড করার ফাংশন (নোট সহ)
+        async function loadUserInfo(username) {
+            showLoading();
+            try {
+                const user = await getUserInfo(username);
+                console.log('Loaded user:', user);
+                
+                if (user) {
+                    currentUser = user;
+                    
+                    // নোট দেখান - এই অংশটি গুরুত্বপূর্ণ
+                    const receiverNote = document.getElementById('receiverNote');
+                    if (receiverNote) {
+                        receiverNote.textContent = user.note || 'ঈদ মোবারক!';
+                        console.log('Note shown:', user.note);
+                    }
+
+                    // বিকাশ নাম্বার দেখান
+                    if (user.bkashNumber) {
+                        document.getElementById('bkashNumber').textContent = user.bkashNumber;
+                        document.getElementById('bkashSection').classList.remove('hidden');
+                    } else {
+                        document.getElementById('bkashSection').classList.add('hidden');
+                    }
+
+                    // নগদ নাম্বার দেখান
+                    if (user.nagadNumber) {
+                        document.getElementById('nagadNumber').textContent = user.nagadNumber;
+                        document.getElementById('nagadSection').classList.remove('hidden');
+                    } else {
+                        document.getElementById('nagadSection').classList.add('hidden');
+                    }
+
+                    // কোন নাম্বার না থাকলে
+                    if (!user.bkashNumber && !user.nagadNumber) {
+                        showToast('এই ইউজারের কোন পেমেন্ট নাম্বার নেই!', 'error');
+                    }
+                } else {
+                    // ডেমো ডাটা
+                    document.getElementById('receiverNote').textContent = 'ঈদ মোবারক! ডেমো ইউজার';
+                    document.getElementById('bkashNumber').textContent = '01303995260';
+                    document.getElementById('nagadNumber').textContent = '01303995260';
+                }
+            } catch (error) {
+                console.error('Error loading user:', error);
+                showToast('ইউজার তথ্য লোড করতে সমস্যা হয়েছে', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
     </script>
 </body>
 </html>
