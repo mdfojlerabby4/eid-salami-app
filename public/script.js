@@ -161,56 +161,19 @@ async function getDashboardData(username) {
     try {
         const response = await fetch(`${API_URL}/dashboard/${username}`);
         const data = await response.json();
-        return data.user;
+        
+        if (data.success && data.user) {
+            return data.user;
+        } else {
+            showToast('ইউজার পাওয়া যায়নি', 'error');
+            return null;
+        }
     } catch (error) {
         console.error('Dashboard error:', error);
         showToast('❌ নেটওয়ার্ক সমস্যা হয়েছে', 'error');
         return null;
     }
 }
-
-// ==================== Home Page Functions ====================
-
-function initHomePage() {
-    const createLinkForm = document.getElementById('createLinkForm');
-    if (createLinkForm) {
-        createLinkForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const formData = {
-                name: document.getElementById('name')?.value || '',
-                bkashNumber: document.getElementById('bkashNumber')?.value,
-                nagadNumber: document.getElementById('nagadNumber')?.value || '',
-                note: document.getElementById('note')?.value || 'ঈদ মোবারক!'
-            };
-
-            const result = await createSalamiLink(formData);
-
-            if (result?.success) {
-                const resultDiv = document.getElementById('result');
-                const linkDisplay = document.getElementById('generatedLink');
-                
-                if (resultDiv && linkDisplay) {
-                    linkDisplay.textContent = result.link;
-                    resultDiv.style.display = 'block';
-                    localStorage.setItem('myUsername', result.username);
-                }
-                createLinkForm.reset();
-            }
-        });
-    }
-}
-
-// Global functions for home page
-window.copyLink = function() {
-    const link = document.getElementById('generatedLink')?.textContent;
-    if (link) copyToClipboard(link);
-};
-
-window.goToDashboard = function() {
-    const username = localStorage.getItem('myUsername');
-    window.location.href = username ? `/dashboard.html?user=${username}` : '/dashboard.html';
-};
 
 // ==================== Make functions globally available ====================
 window.createSalamiLink = createSalamiLink;
@@ -221,17 +184,7 @@ window.copyToClipboard = copyToClipboard;
 window.showToast = showToast;
 window.showLoading = showLoading;
 window.hideLoading = hideLoading;
-
-// ==================== Initialize on Page Load ====================
-
-document.addEventListener('DOMContentLoaded', function() {
-    const path = window.location.pathname;
-
-    if (path === '/' || path === '/index.html') {
-        initHomePage();
-    }
-    // salami-link.html এবং dashboard.html আলাদাভাবে হ্যান্ডেল করা হবে
-});
+window.formatDate = formatDate;
 
 // ==================== Add CSS Animations ====================
 

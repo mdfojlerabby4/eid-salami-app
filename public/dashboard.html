@@ -37,6 +37,46 @@
             font-size: 1rem;
         }
 
+        .user-id-display {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0 0 0;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .user-id-display span {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .user-id-display .user-id-value {
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-left: 10px;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .copy-id-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            margin-left: 10px;
+            font-size: 1.2rem;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .copy-id-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -241,23 +281,6 @@
             background: #5a3d7a;
         }
 
-        .loading {
-            text-align: center;
-            padding: 50px;
-            font-size: 1.2rem;
-            color: #666;
-        }
-
-        .error-message {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            text-align: center;
-            border: 2px solid #f5c6cb;
-        }
-
         @media (max-width: 768px) {
             .dashboard-header h1 {
                 font-size: 1.8rem;
@@ -304,6 +327,13 @@
             <h1>🕌 আমার সালামি ড্যাশবোর্ড</h1>
             <p>ঈদ মোবারক! আপনার সালামির সম্পূর্ণ হিসাব</p>
             <div class="username-badge" id="userUsername">লোড হচ্ছে...</div>
+            
+            <!-- ইউজার আইডি দেখানোর জন্য নতুন সেকশন -->
+            <div class="user-id-display">
+                <span>🔑 আপনার ইউজার আইডি:</span>
+                <span class="user-id-value" id="displayUserId"></span>
+                <button class="copy-id-btn" onclick="copyUserId()" title="আইডি কপি করুন">📋</button>
+            </div>
         </div>
 
         <!-- Statistics Cards -->
@@ -405,23 +435,9 @@
             console.log('URL User:', urlUser);
             console.log('Logged in User:', loggedInUser);
             
-            // ভ্যালিডেশন
-            if (!loggedInUser) {
-                showToast('আগে লিংক তৈরি করুন', 'error');
-                setTimeout(() => window.location.href = '/', 2000);
-                return;
-            }
-            
-            // যদি URL-এ ইউজার না থাকে, নিজের ইউজার বসান
+            // যদি URL-এ ইউজার না থাকে, হোমপেজে পাঠান
             if (!urlUser) {
-                window.location.href = `/dashboard.html?user=${loggedInUser}`;
-                return;
-            }
-            
-            // যদি URL-এর ইউজার লগইন করা ইউজারের সাথে না মেলে
-            if (urlUser !== loggedInUser) {
-                showToast('এটি আপনার ড্যাশবোর্ড নয়!', 'error');
-                setTimeout(() => window.location.href = `/dashboard.html?user=${loggedInUser}`, 2000);
+                window.location.href = '/';
                 return;
             }
             
@@ -459,10 +475,16 @@
             copyToClipboard(link);
         }
 
+        function copyUserId() {
+            const userId = document.getElementById('displayUserId').textContent;
+            copyToClipboard(userId);
+        }
+
         function updateDashboardUI(user) {
             console.log('Updating dashboard with real data:', user);
             
-            // Update user info
+            // ইউজার আইডি দেখান
+            document.getElementById('displayUserId').textContent = user.username || '';
             document.getElementById('userUsername').textContent = user.username || '';
             
             // Update stats with real data

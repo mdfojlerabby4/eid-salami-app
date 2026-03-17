@@ -20,6 +20,16 @@
 
         <div class="main-content">
             <div class="form-container">
+                <!-- ইউজার আইডি দিয়ে ড্যাশবোর্ড এক্সেস - নতুন সেকশন -->
+                <div class="user-id-section" style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; color: white;">
+                    <h3 style="color: white; margin-bottom: 10px;">🔑 আগের ড্যাশবোর্ডে যান</h3>
+                    <p style="margin-bottom: 15px;">আপনার ইউজার আইডি দিন (যেমন: MdFojleRabby778)</p>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="dashboardUserId" placeholder="আপনার ইউজার আইডি দিন" style="flex: 1; padding: 12px; border: 2px solid white; border-radius: 10px; font-size: 16px;">
+                        <button onclick="goToDashboardWithId()" class="btn-secondary" style="background: white; color: #764ba2; border: none; padding: 12px 20px; border-radius: 10px; font-weight: bold; cursor: pointer;">📊 ড্যাশবোর্ড দেখুন</button>
+                    </div>
+                </div>
+
                 <h2>আপনার সালামি লিংক তৈরি করুন</h2>
                 
                 <form id="createLinkForm">
@@ -87,5 +97,47 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // ইউজার আইডি দিয়ে ড্যাশবোর্ডে যাওয়ার ফাংশন
+        function goToDashboardWithId() {
+            const userId = document.getElementById('dashboardUserId').value.trim();
+            if (userId) {
+                window.location.href = `/dashboard.html?user=${userId}`;
+            } else {
+                showToast('ইউজার আইডি দিন', 'error');
+            }
+        }
+
+        // হোমপেজ ইনিশিয়ালাইজ
+        document.addEventListener('DOMContentLoaded', function() {
+            const createLinkForm = document.getElementById('createLinkForm');
+            if (createLinkForm) {
+                createLinkForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const formData = {
+                        name: document.getElementById('name')?.value || '',
+                        bkashNumber: document.getElementById('bkashNumber')?.value,
+                        nagadNumber: document.getElementById('nagadNumber')?.value || '',
+                        note: document.getElementById('note')?.value || 'ঈদ মোবারক!'
+                    };
+
+                    const result = await createSalamiLink(formData);
+
+                    if (result?.success) {
+                        const resultDiv = document.getElementById('result');
+                        const linkDisplay = document.getElementById('generatedLink');
+                        
+                        if (resultDiv && linkDisplay) {
+                            linkDisplay.textContent = result.link;
+                            resultDiv.style.display = 'block';
+                            localStorage.setItem('myUsername', result.username);
+                        }
+                        createLinkForm.reset();
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
