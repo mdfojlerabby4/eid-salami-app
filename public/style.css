@@ -1,3 +1,4 @@
+/* ==================== বেস স্টাইল ==================== */
 * {
     margin: 0;
     padding: 0;
@@ -11,7 +12,7 @@ body {
     position: relative;
 }
 
-/* Developer Credit - Top Right */
+/* ==================== ডেভেলপার ক্রেডিট ==================== */
 .developer-credit {
     position: fixed;
     top: 20px;
@@ -39,6 +40,7 @@ body {
     to { transform: translateX(0); opacity: 1; }
 }
 
+/* ==================== কন্টেইনার ==================== */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -214,11 +216,22 @@ body {
     margin-right: 15px;
 }
 
+.step p {
+    font-size: 16px;
+    color: #555;
+}
+
 .salami-amounts {
     margin-top: 40px;
     padding: 20px;
     background: #f8f9fa;
     border-radius: 10px;
+}
+
+.salami-amounts h4 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
 }
 
 .amount-tag {
@@ -239,7 +252,7 @@ footer {
     margin-top: 40px;
 }
 
-/* Toast message styles */
+/* ==================== টোস্ট মেসেজ ==================== */
 .toast-message {
     position: fixed;
     bottom: 20px;
@@ -257,7 +270,7 @@ footer {
 .toast-error { background: #dc3545; }
 .toast-warning { background: #ffc107; color: #333; }
 
-/* Loading spinner */
+/* ==================== লোডিং স্পিনার ==================== */
 .loading-spinner {
     position: fixed;
     top: 0;
@@ -293,35 +306,653 @@ footer {
     font-size: 18px;
 }
 
-/* Animations */
+/* ==================== অ্যানিমেশন ==================== */
 @keyframes slideInUp {
     from { transform: translateX(-50%) translateY(100%); opacity: 0; }
     to { transform: translateX(-50%) translateY(0); opacity: 1; }
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+.hidden {
+    display: none !important;
+}
+
+/* ==================== মোবাইল রেস্পন্সিভ ডিজাইন ==================== */
+
+/* ছোট মোবাইল (৪৮০px পর্যন্ত) */
+@media screen and (max-width: 480px) {
+    body {
+        padding: 5px;
+    }
+
+    .developer-credit {
+        top: 5px;
+        right: 5px;
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+
+    .container {
+        padding: 5px;
+        margin: 0;
+    }
+
+    .header {
+        margin-bottom: 15px;
+    }
+
+    .header h1 {
+        font-size: 1.4rem;
+        line-height: 1.3;
+        padding: 0 5px;
+    }
+
+    .header p {
+        font-size: 0.85rem;
+        padding: 0 10px;
+    }
+
     .main-content {
         grid-template-columns: 1fr;
+        padding: 12px;
+        gap: 15px;
+        border-radius: 15px;
     }
-    
+
     .form-container {
-        border-right: none;
         padding-right: 0;
+        border-right: none;
     }
-    
+
+    .form-container h2 {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+        margin-bottom: 4px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 8px;
+    }
+
+    .form-group textarea {
+        height: 70px;
+    }
+
+    .form-group small {
+        font-size: 10px;
+    }
+
+    .btn-primary {
+        padding: 12px;
+        font-size: 15px;
+        border-radius: 8px;
+    }
+
     .info-section {
         padding-left: 0;
     }
-    
+
+    .info-section h3 {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+    }
+
+    .step {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+    }
+
+    .step-number {
+        width: 28px;
+        height: 28px;
+        font-size: 13px;
+        margin-right: 10px;
+    }
+
+    .step p {
+        font-size: 12px;
+    }
+
+    .salami-amounts {
+        margin-top: 15px;
+        padding: 12px;
+    }
+
+    .salami-amounts h4 {
+        font-size: 1rem;
+        margin-bottom: 8px;
+    }
+
+    .amount-tag {
+        padding: 4px 8px;
+        font-size: 11px;
+        margin: 2px;
+        border-radius: 15px;
+    }
+
+    .result-box {
+        margin-top: 15px;
+        padding: 12px;
+    }
+
+    .result-box h3 {
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+    }
+
+    .link-display {
+        font-size: 11px;
+        padding: 8px;
+        border-radius: 6px;
+    }
+
+    .btn-secondary {
+        padding: 6px 12px;
+        font-size: 12px;
+        margin: 2px;
+        border-radius: 6px;
+    }
+
+    footer {
+        padding: 10px;
+        font-size: 10px;
+        margin-top: 15px;
+    }
+
+    .toast-message {
+        width: 90%;
+        font-size: 12px;
+        padding: 8px 12px;
+        bottom: 10px;
+    }
+
+    .loading-spinner p {
+        font-size: 14px;
+    }
+
+    .spinner {
+        width: 35px;
+        height: 35px;
+        border-width: 3px;
+    }
+}
+
+/* মাঝারি মোবাইল (৭৬৮px পর্যন্ত) */
+@media screen and (min-width: 481px) and (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
     .header h1 {
         font-size: 2rem;
     }
-    
+
+    .header p {
+        font-size: 1rem;
+    }
+
+    .main-content {
+        grid-template-columns: 1fr;
+        padding: 20px;
+        gap: 25px;
+    }
+
+    .form-container {
+        padding-right: 0;
+        border-right: none;
+    }
+
+    .form-container h2 {
+        font-size: 1.5rem;
+    }
+
+    .info-section {
+        padding-left: 0;
+    }
+
+    .info-section h3 {
+        font-size: 1.5rem;
+    }
+
+    .step {
+        padding: 12px;
+    }
+
+    .step p {
+        font-size: 14px;
+    }
+
     .developer-credit {
         top: 10px;
         right: 10px;
         font-size: 12px;
         padding: 5px 12px;
+    }
+}
+
+/* ==================== মোবাইল রেস্পন্সিভ ডিজাইন ==================== */
+
+/* ছোট মোবাইল (৪৮০px পর্যন্ত) - হোমপেজের জন্য */
+@media screen and (max-width: 480px) {
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 0;
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .developer-credit {
+        top: 5px;
+        right: 5px;
+        font-size: 10px;
+        padding: 3px 8px;
+        z-index: 1000;
+    }
+
+    .container {
+        padding: 5px;
+        margin: 0;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .header {
+        margin-bottom: 10px;
+        padding: 5px;
+    }
+
+    .header h1 {
+        font-size: 1.5rem;
+        line-height: 1.3;
+        padding: 0 5px;
+        margin-bottom: 5px;
+    }
+
+    .header p {
+        font-size: 0.9rem;
+        padding: 0 10px;
+        margin-bottom: 5px;
+    }
+
+    .main-content {
+        grid-template-columns: 1fr;
+        padding: 12px;
+        gap: 15px;
+        border-radius: 12px;
+        margin: 0 5px;
+    }
+
+    /* ইউজার আইডি সেকশন */
+    .user-id-section {
+        margin-bottom: 15px !important;
+        padding: 12px !important;
+    }
+
+    .user-id-section h3 {
+        font-size: 1rem !important;
+        margin-bottom: 5px !important;
+    }
+
+    .user-id-section p {
+        font-size: 0.8rem !important;
+        margin-bottom: 8px !important;
+    }
+
+    .user-id-section div {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .user-id-section input {
+        width: 100%;
+        padding: 10px !important;
+        font-size: 14px !important;
+        border-radius: 8px !important;
+    }
+
+    .user-id-section button {
+        width: 100%;
+        padding: 10px !important;
+        font-size: 14px !important;
+    }
+
+    .form-container {
+        padding-right: 0;
+        border-right: none;
+    }
+
+    .form-container h2 {
+        font-size: 1.3rem;
+        margin-bottom: 12px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+        margin-bottom: 4px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 8px;
+    }
+
+    .form-group textarea {
+        height: 70px;
+    }
+
+    .form-group small {
+        font-size: 10px;
+    }
+
+    .btn-primary {
+        padding: 12px;
+        font-size: 15px;
+        border-radius: 8px;
+    }
+
+    .info-section {
+        padding-left: 0;
+    }
+
+    .info-section h3 {
+        font-size: 1.3rem;
+        margin-bottom: 12px;
+    }
+
+    .step {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+    }
+
+    .step-number {
+        width: 28px;
+        height: 28px;
+        font-size: 13px;
+        margin-right: 10px;
+    }
+
+    .step p {
+        font-size: 12px;
+    }
+
+    .salami-amounts {
+        margin-top: 15px;
+        padding: 12px;
+    }
+
+    .salami-amounts h4 {
+        font-size: 1rem;
+        margin-bottom: 8px;
+    }
+
+    .amount-tag {
+        padding: 4px 8px;
+        font-size: 11px;
+        margin: 2px;
+        border-radius: 15px;
+    }
+
+    .result-box {
+        margin-top: 15px;
+        padding: 12px;
+    }
+
+    .result-box h3 {
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+    }
+
+    .link-display {
+        font-size: 11px;
+        padding: 8px;
+        border-radius: 6px;
+    }
+
+    footer {
+        padding: 10px;
+        font-size: 10px;
+        margin-top: 10px;
+    }
+
+    .toast-message {
+        width: 90%;
+        font-size: 12px;
+        padding: 8px 12px;
+        bottom: 10px;
+    }
+}
+
+/* মাঝারি মোবাইল (৭৬৮px পর্যন্ত) */
+@media screen and (min-width: 481px) and (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .header p {
+        font-size: 1rem;
+    }
+
+    .main-content {
+        grid-template-columns: 1fr;
+        padding: 15px;
+        gap: 20px;
+    }
+
+    .form-container {
+        padding-right: 0;
+        border-right: none;
+    }
+
+    .form-container h2 {
+        font-size: 1.5rem;
+    }
+
+    .info-section {
+        padding-left: 0;
+    }
+
+    .info-section h3 {
+        font-size: 1.5rem;
+    }
+
+    .step {
+        padding: 12px;
+    }
+
+    .step p {
+        font-size: 14px;
+    }
+
+    .developer-credit {
+        top: 10px;
+        right: 10px;
+        font-size: 12px;
+        padding: 5px 12px;
+    }
+}
+
+/* ==================== সালামি লিংক পেজ মোবাইল রেস্পন্সিভ ==================== */
+@media screen and (max-width: 768px) {
+    .salami-container {
+        margin: 10px;
+        padding: 15px;
+        border-radius: 15px;
+    }
+
+    .salami-container h1 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    .receiver-name {
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+    }
+
+    .receiver-note {
+        font-size: 0.9rem;
+        padding: 12px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+    }
+
+    .payment-info {
+        padding: 12px;
+        margin: 15px 0;
+    }
+
+    .payment-card {
+        margin-bottom: 12px;
+    }
+
+    .payment-card h3 {
+        font-size: 1rem;
+    }
+
+    .payment-number {
+        font-size: 16px;
+        padding: 8px;
+        margin: 8px 0;
+    }
+
+    .copy-btn {
+        margin-top: 5px;
+        padding: 8px !important;
+        font-size: 13px !important;
+    }
+
+    .amount-selector {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin: 15px 0;
+    }
+
+    .amount-btn {
+        padding: 10px;
+        font-size: 13px;
+        border-radius: 8px;
+    }
+
+    .custom-amount {
+        margin: 15px 0;
+    }
+
+    .custom-amount input {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+        margin-bottom: 4px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .form-group textarea {
+        height: 70px;
+    }
+
+    .instructions {
+        padding: 12px;
+        margin: 15px 0;
+    }
+
+    .instructions h4 {
+        font-size: 1rem;
+        margin-bottom: 8px;
+    }
+
+    .instructions ol {
+        margin-left: 15px;
+    }
+
+    .instructions li {
+        font-size: 12px;
+        margin: 5px 0;
+    }
+
+    .btn-primary {
+        padding: 12px;
+        font-size: 15px;
+    }
+}
+
+/* ল্যান্ডস্কেপ মোড */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .container,
+    .dashboard-container,
+    .salami-container {
+        margin: 5px auto;
+    }
+
+    .header {
+        margin-bottom: 15px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .refresh-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+        bottom: 5px;
+        right: 5px;
+    }
+
+    .main-content {
+        padding: 15px;
+    }
+}
+
+/* টাচ ফ্রেন্ডলি বাটন */
+@media (hover: none) and (pointer: coarse) {
+    .btn-primary,
+    .btn-secondary,
+    .amount-btn,
+    .link-box button,
+    .refresh-btn,
+    .copy-btn,
+    .copy-id-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    input, select, textarea {
+        font-size: 16px !important;
     }
 }
