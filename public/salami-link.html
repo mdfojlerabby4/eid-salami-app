@@ -15,6 +15,14 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
 
+        .receiver-name {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+
         .receiver-note {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
@@ -180,7 +188,7 @@
         }
 
         .hidden {
-            display: none;
+            display: none !important;
         }
     </style>
 </head>
@@ -193,7 +201,10 @@
     <div class="salami-container">
         <h1 style="text-align: center; color: #333;">🕌 ঈদ সালামি</h1>
         
-        <!-- Receiver Note - এই অংশে নোট দেখাবে -->
+        <!-- Receiver Name - নতুন অংশ -->
+        <div class="receiver-name" id="receiverName">লোড হচ্ছে...</div>
+        
+        <!-- Receiver Note -->
         <div class="receiver-note" id="receiverNote">লোড হচ্ছে...</div>
 
         <div class="payment-info">
@@ -326,7 +337,7 @@
             });
         });
 
-        // ইউজারের তথ্য লোড করার ফাংশন (নোট সহ)
+        // ইউজারের তথ্য লোড করার ফাংশন (নাম ও নোট সহ)
         async function loadUserInfo(username) {
             showLoading();
             try {
@@ -336,7 +347,14 @@
                 if (user) {
                     currentUser = user;
                     
-                    // নোট দেখান - এই অংশটি গুরুত্বপূর্ণ
+                    // নাম দেখান
+                    const receiverName = document.getElementById('receiverName');
+                    if (receiverName) {
+                        receiverName.textContent = user.name || 'Salami Receiver';
+                        console.log('Name shown:', user.name);
+                    }
+                    
+                    // নোট দেখান
                     const receiverNote = document.getElementById('receiverNote');
                     if (receiverNote) {
                         receiverNote.textContent = user.note || 'ঈদ মোবারক!';
@@ -364,7 +382,8 @@
                         showToast('এই ইউজারের কোন পেমেন্ট নাম্বার নেই!', 'error');
                     }
                 } else {
-                    // ডেমো ডাটা
+                    // ডেমো ডাটা (যদি ইউজার না পাওয়া যায়)
+                    document.getElementById('receiverName').textContent = 'ডেমো ইউজার';
                     document.getElementById('receiverNote').textContent = 'ঈদ মোবারক! ডেমো ইউজার';
                     document.getElementById('bkashNumber').textContent = '01303995260';
                     document.getElementById('nagadNumber').textContent = '01303995260';

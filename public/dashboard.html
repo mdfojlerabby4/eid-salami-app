@@ -437,7 +437,8 @@
                 if (user) {
                     updateDashboardUI(user);
                 } else {
-                    showToast('ডাটা লোড করা যায়নি', 'error');
+                    showToast('ইউজার পাওয়া যায়নি', 'error');
+                    setTimeout(() => window.location.href = '/', 2000);
                 }
             } catch (error) {
                 console.error('Dashboard load error:', error);
@@ -459,12 +460,12 @@
         }
 
         function updateDashboardUI(user) {
-            console.log('Updating dashboard with:', user);
+            console.log('Updating dashboard with real data:', user);
             
             // Update user info
             document.getElementById('userUsername').textContent = user.username || '';
             
-            // Update stats
+            // Update stats with real data
             document.getElementById('totalReceived').textContent = `৳ ${user.totalReceived || 0}`;
             document.getElementById('totalTransactions').textContent = user.totalTransactions || 0;
             
@@ -477,6 +478,8 @@
             if (user.transactions && user.transactions.length > 0) {
                 const max = Math.max(...user.transactions.map(t => t.amount));
                 document.getElementById('maxAmount').textContent = `৳ ${max}`;
+            } else {
+                document.getElementById('maxAmount').textContent = `৳ 0`;
             }
             
             // Update link
@@ -487,14 +490,18 @@
             document.getElementById('bkashNumber').textContent = user.bkashNumber || 'দেওয়া হয়নি';
             if (!user.bkashNumber) {
                 document.getElementById('bkashCard').classList.add('empty');
+            } else {
+                document.getElementById('bkashCard').classList.remove('empty');
             }
             
             document.getElementById('nagadNumber').textContent = user.nagadNumber || 'দেওয়া হয়নি';
             if (!user.nagadNumber) {
                 document.getElementById('nagadCard').classList.add('empty');
+            } else {
+                document.getElementById('nagadCard').classList.remove('empty');
             }
             
-            // Update transactions table
+            // Update transactions table with real data
             updateTransactionsTable(user.transactions || []);
         }
 
