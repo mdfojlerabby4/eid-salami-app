@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ঈদ সালামি - আপনার লিংক তৈরি করুন</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Developer Credit - Top Right -->
+    <div class="developer-credit">
+        Developed by <strong>Md. Fojle Rabby</strong>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>🕌 ঈদ সালামি কানেক্ট</h1>
+            <p>সহজেই তৈরি করুন আপনার সালামি কালেকশন লিংক</p>
+        </div>
+
+        <div class="main-content">
+            <div class="form-container">
+                <h2>আপনার সালামি লিংক তৈরি করুন</h2>
+                
+                <form id="createLinkForm">
+                    <div class="form-group">
+                        <label>আপনার নাম (ঐচ্ছিক)</label>
+                        <input type="text" id="name" placeholder="যেমন: রাব্বি">
+                    </div>
+
+                    <div class="form-group">
+                        <label>বিকাশ নাম্বার</label>
+                        <input type="tel" id="bkashNumber" placeholder="01XXXXXXXXX">
+                        <small style="color: #666; font-size: 12px; display: block; margin-top: 5px;">বিকাশ বা নগদ যেকোনো একটা দিন</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>নগদ নাম্বার</label>
+                        <input type="tel" id="nagadNumber" placeholder="01XXXXXXXXX">
+                        <small style="color: #666; font-size: 12px; display: block; margin-top: 5px;">বিকাশ বা নগদ যেকোনো একটা দিন</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>নোট লিখুন (ঐচ্ছিক)</label>
+                        <textarea id="note" placeholder="যেমন: ঈদ মোবারক! আপনার ছোট্ট সালামি আমার জন্য বড় উৎসাহ"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary">🔗 আমার লিংক তৈরি করুন</button>
+                </form>
+
+                <div id="result" class="result-box" style="display: none;">
+                    <h3>✅ আপনার সালামি লিংক তৈরি হয়েছে!</h3>
+                    <p class="link-display" id="generatedLink"></p>
+                    <button class="btn-secondary" onclick="copyLink()">📋 লিংক কপি করুন</button>
+                    <button class="btn-secondary" onclick="goToDashboard()">📊 ড্যাশবোর্ড দেখুন</button>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>কিভাবে কাজ করে?</h3>
+                <div class="step">
+                    <span class="step-number">১</span>
+                    <p>আপনার বিকাশ/নগদ নাম্বার দিয়ে লিংক তৈরি করুন</p>
+                </div>
+                <div class="step">
+                    <span class="step-number">২</span>
+                    <p>লিংকটি বন্ধুদের সাথে শেয়ার করুন</p>
+                </div>
+                <div class="step">
+                    <span class="step-number">৩</span>
+                    <p>কে কত টাকা পাঠিয়েছে তা ড্যাশবোর্ডে দেখুন</p>
+                </div>
+                
+                <div class="salami-amounts">
+                    <h4>সালামির পরিমাণ:</h4>
+                    <span class="amount-tag">১০০ (ছোট)</span>
+                    <span class="amount-tag">২০০ (মোটামুটি)</span>
+                    <span class="amount-tag">৫০০ (বড়)</span>
+                    <span class="amount-tag">১০০০ (ওয়াও)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 - Developed with ❤️ by <strong>Md. Fojle Rabby</strong></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ঈদ সালামি পাঠান</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .salami-container { max-width: 600px; margin: 40px auto; background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+        .receiver-note { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 20px; border-radius: 10px; margin-bottom: 30px; font-size: 1.2rem; text-align: center; }
+        .payment-info { background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0; }
+        .payment-number { font-size: 24px; font-weight: bold; padding: 10px; background: white; border-radius: 8px; text-align: center; margin: 10px 0; border: 2px dashed #764ba2; }
+        .amount-selector { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 20px 0; }
+        .amount-btn { padding: 15px; border: 2px solid #e0e0e0; border-radius: 10px; background: white; cursor: pointer; transition: all 0.3s; }
+        .amount-btn.selected { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-color: #764ba2; }
+        .instructions { background: #e3f2fd; padding: 20px; border-radius: 10px; margin: 20px 0; }
+        .instructions ol { margin-left: 20px; }
+    </style>
+</head>
+<body>
+    <div class="salami-container">
+        <h1 style="text-align: center;">🕌 ঈদ সালামি</h1>
+        
+        <div class="receiver-note" id="receiverNote">লোড হচ্ছে...</div>
+
+        <div class="payment-info">
+            <h3>বিকাশ (Send Money)</h3>
+            <div class="payment-number" id="bkashNumber">-</div>
+            <button class="btn-secondary" onclick="copyBkash()">📋 কপি করুন</button>
+            
+            <h3 style="margin-top: 20px;">নগদ</h3>
+            <div class="payment-number" id="nagadNumber">-</div>
+            <button class="btn-secondary" onclick="copyNagad()">📋 কপি করুন</button>
+        </div>
+
+        <h3>সালামির পরিমাণ নির্বাচন করুন</h3>
+        <div class="amount-selector">
+            <button class="amount-btn" data-amount="100">১০০ (ছোট)</button>
+            <button class="amount-btn" data-amount="200">২০০ (মোটামুটি)</button>
+            <button class="amount-btn" data-amount="500">৫০০ (বড়)</button>
+            <button class="amount-btn" data-amount="1000">১০০০ (ওয়াও)</button>
+        </div>
+
+        <div class="form-group">
+            <label>অন্যান্য পরিমাণ (টাকা)</label>
+            <input type="number" id="customAmount" placeholder="যেমন: 300">
+        </div>
+
+        <div class="form-group">
+            <label>আপনার নাম (ঐচ্ছিক)</label>
+            <input type="text" id="senderName" placeholder="যেমন: করিম">
+        </div>
+
+        <div class="form-group">
+            <label>আপনার ফোন নাম্বার (ঐচ্ছিক)</label>
+            <input type="tel" id="senderPhone" placeholder="01XXXXXXXXX">
+        </div>
+
+        <div class="form-group">
+            <label>নোট লিখুন (ঐচ্ছিক)</label>
+            <textarea id="senderNote" placeholder="কিছু বলুন..."></textarea>
+        </div>
+
+        <div class="instructions">
+            <h4>📱 যেভাবে টাকা পাঠাবেন:</h4>
+            <ol>
+                <li>উপরের নাম্বারে বিকাশ/নগদে Send Money করুন</li>
+                <li>টাকা পাঠানোর পর নিচের বাটনে ক্লিক করুন</li>
+                <li>রিসিভার নোটিফিকেশন পাবে</li>
+            </ol>
+        </div>
+
+        <button class="btn-primary" id="sendSalamiBtn">💝 আমি টাকা পাঠিয়েছি</button>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        let currentUser = null;
+        let selectedAmount = null;
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const username = window.location.pathname.split('/').pop();
+            if (!username) {
+                showToast('ইউজার নাম পাওয়া যায়নি', 'error');
+                return;
+            }
+
+            // Load user info
+            const user = await getUserInfo(username);
+            if (user) {
+                currentUser = user;
+                document.getElementById('receiverNote').textContent = user.note || 'ঈদ মোবারক!';
+                document.getElementById('bkashNumber').textContent = user.bkashNumber;
+                document.getElementById('nagadNumber').textContent = user.nagadNumber || '-';
+            }
+
+            // Amount selection
+            document.querySelectorAll('.amount-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedAmount = parseInt(this.dataset.amount);
+                    document.getElementById('customAmount').value = '';
+                });
+            });
+
+            document.getElementById('customAmount').addEventListener('input', function() {
+                document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+                selectedAmount = null;
+            });
+
+            // Send salami
+            document.getElementById('sendSalamiBtn').addEventListener('click', async function() {
+                let amount = selectedAmount;
+                const customAmount = document.getElementById('customAmount').value;
+                if (customAmount) amount = parseInt(customAmount);
+
+                if (!amount || amount < 1) {
+                    showToast('সালামির পরিমাণ নির্বাচন করুন', 'error');
+                    return;
+                }
+
+                const transactionData = {
+                    receiverUsername: username,
+                    senderName: document.getElementById('senderName').value || 'বেনামী',
+                    senderPhone: document.getElementById('senderPhone').value || '',
+                    amount: amount,
+                    note: document.getElementById('senderNote').value || '',
+                    paymentMethod: 'bkash'
+                };
+
+                const result = await sendSalami(transactionData);
+                if (result) {
+                    showToast('✅ সালামি পাঠানোর জন্য ধন্যবাদ!', 'success');
+                    setTimeout(() => window.location.href = '/', 2000);
+                }
+            });
+        });
+
+        function copyBkash() { if (currentUser) copyToClipboard(currentUser.bkashNumber); }
+        function copyNagad() { if (currentUser?.nagadNumber) copyToClipboard(currentUser.nagadNumber); }
+    </script>
+</body>
+</html>
