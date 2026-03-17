@@ -4,6 +4,7 @@
  */
 
 // API URL for Netlify Functions
+//const API_URL = '/.netlify/functions/api';
 const API_URL = '/.netlify/functions/api';
 // ==================== Utility Functions ====================
 
