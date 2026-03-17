@@ -3,23 +3,293 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ঈদ সালামি পাঠান</title>
+    <title>আমার সালামি ড্যাশবোর্ড - Eid Salami</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .salami-container { max-width: 600px; margin: 40px auto; background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
-        .receiver-note { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 20px; border-radius: 10px; margin-bottom: 30px; font-size: 1.2rem; text-align: center; }
-        .payment-info { background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0; }
-        .payment-number { font-size: 24px; font-weight: bold; padding: 10px; background: white; border-radius: 8px; text-align: center; margin: 10px 0; border: 2px dashed #764ba2; word-break: break-all; }
-        .payment-card { margin-bottom: 20px; }
-        .amount-selector { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 20px 0; }
-        .amount-btn { padding: 15px; border: 2px solid #e0e0e0; border-radius: 10px; background: white; cursor: pointer; transition: all 0.3s; font-size: 16px; }
-        .amount-btn.selected { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-color: #764ba2; }
-        .amount-btn:hover { border-color: #764ba2; }
-        .instructions { background: #e3f2fd; padding: 20px; border-radius: 10px; margin: 20px 0; }
-        .instructions ol { margin-left: 20px; }
-        .instructions li { margin: 10px 0; }
-        .empty-message { color: #999; font-style: italic; text-align: center; padding: 10px; }
-        .copy-btn { margin-top: 5px; }
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .dashboard-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .username-badge {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #764ba2;
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-card .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 5px;
+        }
+
+        .link-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px dashed #764ba2;
+        }
+
+        .link-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .link-box {
+            display: flex;
+            gap: 10px;
+            background: white;
+            padding: 5px;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .link-box input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            font-size: 16px;
+            background: transparent;
+        }
+
+        .link-box button {
+            padding: 10px 20px;
+            background: #764ba2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .link-box button:hover {
+            background: #5a3d7a;
+        }
+
+        .payment-info-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .payment-numbers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .payment-card {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .payment-card.bkash {
+            background: linear-gradient(135deg, #E2136E 0%, #C01060 100%);
+            color: white;
+        }
+
+        .payment-card.nagad {
+            background: linear-gradient(135deg, #F58426 0%, #D65A0F 100%);
+            color: white;
+        }
+
+        .payment-card.empty {
+            background: #e0e0e0;
+            color: #666;
+            opacity: 0.7;
+        }
+
+        .payment-card .number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+
+        .transactions-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .transactions-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .transaction-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .transaction-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .transaction-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .amount-positive {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .no-transactions {
+            text-align: center;
+            padding: 50px;
+            color: #999;
+            font-size: 1.1rem;
+        }
+
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #764ba2;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(118, 75, 162, 0.4);
+            border: none;
+            font-size: 24px;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .refresh-btn:hover {
+            transform: rotate(180deg);
+            background: #5a3d7a;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px solid #f5c6cb;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-numbers {
+                grid-template-columns: 1fr;
+            }
+            
+            .link-box {
+                flex-direction: column;
+            }
+            
+            .transaction-table {
+                font-size: 14px;
+            }
+            
+            .transaction-table th, 
+            .transaction-table td {
+                padding: 10px;
+            }
+            
+            .username-badge {
+                position: static;
+                margin-top: 15px;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -28,154 +298,249 @@
         Developed by <strong>Md. Fojle Rabby</strong>
     </div>
 
-    <div class="salami-container">
-        <h1 style="text-align: center; color: #333;">🕌 ঈদ সালামি</h1>
-        
-        <div class="receiver-note" id="receiverNote">লোড হচ্ছে...</div>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <div class="dashboard-header">
+            <h1>🕌 আমার সালামি ড্যাশবোর্ড</h1>
+            <p>ঈদ মোবারক! আপনার সালামির সম্পূর্ণ হিসাব</p>
+            <div class="username-badge" id="userUsername">লোড হচ্ছে...</div>
+        </div>
 
-        <div class="payment-info">
-            <div class="payment-card" id="bkashSection">
-                <h3>বিকাশ (Send Money)</h3>
-                <div class="payment-number" id="bkashNumber">-</div>
-                <button class="btn-secondary copy-btn" id="copyBkash" onclick="copyBkash()">📋 কপি করুন</button>
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>মোট সংগ্রহ</h3>
+                <div class="stat-number" id="totalReceived">৳ 0</div>
+                <div class="stat-label">সর্বমোট সালামি</div>
             </div>
+
+            <div class="stat-card">
+                <h3>মোট ট্রানজ্যাকশন</h3>
+                <div class="stat-number" id="totalTransactions">0</div>
+                <div class="stat-label">জন পাঠিয়েছেন</div>
+            </div>
+
+            <div class="stat-card">
+                <h3>গড় সালামি</h3>
+                <div class="stat-number" id="averageAmount">৳ 0</div>
+                <div class="stat-label">প্রতি জনে গড়</div>
+            </div>
+
+            <div class="stat-card">
+                <h3>সর্বোচ্চ সালামি</h3>
+                <div class="stat-number" id="maxAmount">৳ 0</div>
+                <div class="stat-label">সবচেয়ে বড় সালামি</div>
+            </div>
+        </div>
+
+        <!-- Your Salami Link -->
+        <div class="link-section">
+            <h3>🔗 আপনার সালামি লিংক</h3>
+            <p>এই লিংকটি বন্ধুদের সাথে শেয়ার করুন</p>
+            <div class="link-box">
+                <input type="text" id="salamiLink" readonly>
+                <button onclick="copyDashboardLink()">📋 কপি করুন</button>
+            </div>
+        </div>
+
+        <!-- Payment Information -->
+        <div class="payment-info-section">
+            <h3>📱 আপনার পেমেন্ট নাম্বারসমূহ</h3>
+            <p>লোকে এই নাম্বারগুলো দেখতে পাবে এবং টাকা পাঠাবে</p>
             
-            <div class="payment-card" id="nagadSection">
-                <h3 style="margin-top: 20px;">নগদ</h3>
-                <div class="payment-number" id="nagadNumber">-</div>
-                <button class="btn-secondary copy-btn" id="copyNagad" onclick="copyNagad()">📋 কপি করুন</button>
+            <div class="payment-numbers">
+                <div class="payment-card bkash" id="bkashCard">
+                    <h4>বিকাশ</h4>
+                    <div class="number" id="bkashNumber">-</div>
+                    <div>Send Money</div>
+                </div>
+                
+                <div class="payment-card nagad" id="nagadCard">
+                    <h4>নগদ</h4>
+                    <div class="number" id="nagadNumber">-</div>
+                    <div>Send Money</div>
+                </div>
             </div>
         </div>
 
-        <h3>সালামির পরিমাণ নির্বাচন করুন</h3>
-        <div class="amount-selector">
-            <button class="amount-btn" data-amount="100">১০০ (ছোট)</button>
-            <button class="amount-btn" data-amount="200">২০০ (মোটামুটি)</button>
-            <button class="amount-btn" data-amount="500">৫০০ (বড়)</button>
-            <button class="amount-btn" data-amount="1000">১০০০ (ওয়াও)</button>
+        <!-- Transactions List -->
+        <div class="transactions-section">
+            <h2>📝 সালামি পাঠানোর ইতিহাস</h2>
+            
+            <table class="transaction-table">
+                <thead>
+                    <tr>
+                        <th>তারিখ</th>
+                        <th>নাম</th>
+                        <th>মোবাইল</th>
+                        <th>পরিমাণ</th>
+                        <th>মন্তব্য</th>
+                    </tr>
+                </thead>
+                <tbody id="transactionsTableBody">
+                    <tr>
+                        <td colspan="5" class="no-transactions">
+                            🎁 এখনো কেউ সালামি পাঠায়নি
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-
-        <div class="form-group">
-            <label>অন্যান্য পরিমাণ (টাকা)</label>
-            <input type="number" id="customAmount" placeholder="যেমন: 300">
-        </div>
-
-        <div class="form-group">
-            <label>আপনার নাম (ঐচ্ছিক)</label>
-            <input type="text" id="senderName" placeholder="যেমন: করিম">
-        </div>
-
-        <div class="form-group">
-            <label>আপনার ফোন নাম্বার (ঐচ্ছিক)</label>
-            <input type="tel" id="senderPhone" placeholder="01XXXXXXXXX">
-        </div>
-
-        <div class="form-group">
-            <label>নোট লিখুন (ঐচ্ছিক)</label>
-            <textarea id="senderNote" placeholder="কিছু বলুন..."></textarea>
-        </div>
-
-        <div class="instructions">
-            <h4>📱 যেভাবে টাকা পাঠাবেন:</h4>
-            <ol>
-                <li>উপরের নাম্বারে বিকাশ/নগদে Send Money করুন</li>
-                <li>টাকা পাঠানোর পর নিচের বাটনে ক্লিক করুন</li>
-                <li>রিসিভার নোটিফিকেশন পাবে</li>
-            </ol>
-        </div>
-
-        <button class="btn-primary" id="sendSalamiBtn">💝 আমি টাকা পাঠিয়েছি</button>
     </div>
+
+    <!-- Refresh Button -->
+    <button class="refresh-btn" onclick="loadDashboard()" title="রিফ্রেশ">🔄</button>
 
     <script src="script.js"></script>
     <script>
-        let currentUser = null;
-        let selectedAmount = null;
+        // ড্যাশবোর্ডের জন্য আলাদা ফাংশন
+        let currentUsername = null;
 
-        document.addEventListener('DOMContentLoaded', async function() {
+        document.addEventListener('DOMContentLoaded', function() {
+            // URL থেকে ইউজার নাম নিন
             const urlParams = new URLSearchParams(window.location.search);
-            const username = urlParams.get('user');
+            const urlUser = urlParams.get('user');
+            const loggedInUser = localStorage.getItem('myUsername');
             
-            if (!username) {
-                showToast('ইউজার নাম পাওয়া যায়নি', 'error');
+            console.log('URL User:', urlUser);
+            console.log('Logged in User:', loggedInUser);
+            
+            // ভ্যালিডেশন
+            if (!loggedInUser) {
+                showToast('আগে লিংক তৈরি করুন', 'error');
+                setTimeout(() => window.location.href = '/', 2000);
+                return;
+            }
+            
+            // যদি URL-এ ইউজার না থাকে, নিজের ইউজার বসান
+            if (!urlUser) {
+                window.location.href = `/dashboard.html?user=${loggedInUser}`;
+                return;
+            }
+            
+            // যদি URL-এর ইউজার লগইন করা ইউজারের সাথে না মেলে
+            if (urlUser !== loggedInUser) {
+                showToast('এটি আপনার ড্যাশবোর্ড নয়!', 'error');
+                setTimeout(() => window.location.href = `/dashboard.html?user=${loggedInUser}`, 2000);
+                return;
+            }
+            
+            // সব ঠিক থাকলে ইউজার নাম সেভ করুন এবং ডাটা লোড করুন
+            currentUsername = urlUser;
+            loadDashboardData(currentUsername);
+        });
+
+        async function loadDashboardData(username) {
+            showLoading();
+            try {
+                const user = await getDashboardData(username);
+                if (user) {
+                    updateDashboardUI(user);
+                } else {
+                    showToast('ডাটা লোড করা যায়নি', 'error');
+                }
+            } catch (error) {
+                console.error('Dashboard load error:', error);
+                showToast('ডাটা লোড করতে সমস্যা হয়েছে', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function loadDashboard() {
+            if (currentUsername) {
+                loadDashboardData(currentUsername);
+            }
+        }
+
+        function copyDashboardLink() {
+            const link = document.getElementById('salamiLink').value;
+            copyToClipboard(link);
+        }
+
+        function updateDashboardUI(user) {
+            console.log('Updating dashboard with:', user);
+            
+            // Update user info
+            document.getElementById('userUsername').textContent = user.username || '';
+            
+            // Update stats
+            document.getElementById('totalReceived').textContent = `৳ ${user.totalReceived || 0}`;
+            document.getElementById('totalTransactions').textContent = user.totalTransactions || 0;
+            
+            // Calculate average
+            const avg = user.totalTransactions > 0 ? 
+                Math.round(user.totalReceived / user.totalTransactions) : 0;
+            document.getElementById('averageAmount').textContent = `৳ ${avg}`;
+            
+            // Calculate max
+            if (user.transactions && user.transactions.length > 0) {
+                const max = Math.max(...user.transactions.map(t => t.amount));
+                document.getElementById('maxAmount').textContent = `৳ ${max}`;
+            }
+            
+            // Update link
+            document.getElementById('salamiLink').value = 
+                `https://rabby-eid-salami.netlify.app/salami-link.html?user=${user.username}`;
+            
+            // Update payment numbers
+            document.getElementById('bkashNumber').textContent = user.bkashNumber || 'দেওয়া হয়নি';
+            if (!user.bkashNumber) {
+                document.getElementById('bkashCard').classList.add('empty');
+            }
+            
+            document.getElementById('nagadNumber').textContent = user.nagadNumber || 'দেওয়া হয়নি';
+            if (!user.nagadNumber) {
+                document.getElementById('nagadCard').classList.add('empty');
+            }
+            
+            // Update transactions table
+            updateTransactionsTable(user.transactions || []);
+        }
+
+        function updateTransactionsTable(transactions) {
+            const tableBody = document.getElementById('transactionsTableBody');
+            
+            if (!tableBody) return;
+
+            if (!transactions || transactions.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 30px; color: #999;">
+                            🎁 এখনো কেউ সালামি পাঠায়নি
+                        </td>
+                    </tr>
+                `;
                 return;
             }
 
-            // Load user info
-            currentUser = await getUserInfo(username);
-            if (currentUser) {
-                document.getElementById('receiverNote').textContent = currentUser.note || 'ঈদ মোবারক!';
-                
-                // Handle bkash - show if exists
-                if (currentUser.bkashNumber) {
-                    document.getElementById('bkashNumber').textContent = currentUser.bkashNumber;
-                } else {
-                    document.getElementById('bkashSection').style.display = 'none';
-                }
-                
-                // Handle nagad - show if exists
-                if (currentUser.nagadNumber) {
-                    document.getElementById('nagadNumber').textContent = currentUser.nagadNumber;
-                } else {
-                    document.getElementById('nagadSection').style.display = 'none';
-                }
-                
-                // If neither exists, show error
-                if (!currentUser.bkashNumber && !currentUser.nagadNumber) {
-                    showToast('এই ইউজারের কোন পেমেন্ট নাম্বার নেই!', 'error');
-                }
+            let html = '';
+            transactions.forEach(tx => {
+                html += `
+                    <tr>
+                        <td>${new Date(tx.createdAt).toLocaleDateString('bn-BD', {
+                            day: 'numeric',
+                            month: 'short',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })}</td>
+                        <td>${tx.senderName || 'বেনামী'}</td>
+                        <td>${tx.senderPhone || '-'}</td>
+                        <td class="amount-positive">৳ ${tx.amount}</td>
+                        <td>${tx.note || '-'}</td>
+                    </tr>
+                `;
+            });
+
+            tableBody.innerHTML = html;
+        }
+
+        // প্রতি ৩০ সেকেন্ডে অটো রিফ্রেশ
+        setInterval(() => {
+            if (currentUsername) {
+                loadDashboardData(currentUsername);
             }
-
-            // Amount selection
-            document.querySelectorAll('.amount-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
-                    this.classList.add('selected');
-                    selectedAmount = parseInt(this.dataset.amount);
-                    document.getElementById('customAmount').value = '';
-                });
-            });
-
-            document.getElementById('customAmount').addEventListener('input', function() {
-                document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
-                selectedAmount = null;
-            });
-
-            // Send salami
-            document.getElementById('sendSalamiBtn').addEventListener('click', async function() {
-                let amount = selectedAmount;
-                const customAmount = document.getElementById('customAmount').value;
-                if (customAmount) amount = parseInt(customAmount);
-
-                if (!amount || amount < 1) {
-                    showToast('সালামির পরিমাণ নির্বাচন করুন', 'error');
-                    return;
-                }
-
-                const transactionData = {
-                    receiverUsername: username,
-                    senderName: document.getElementById('senderName').value || 'বেনামী',
-                    senderPhone: document.getElementById('senderPhone').value || '',
-                    amount: amount,
-                    note: document.getElementById('senderNote').value || '',
-                    paymentMethod: 'bkash'
-                };
-
-                const result = await sendSalami(transactionData);
-                if (result) {
-                    showToast('✅ সালামি পাঠানোর জন্য ধন্যবাদ!', 'success');
-                    setTimeout(() => window.location.href = '/', 2000);
-                }
-            });
-        });
-
-        function copyBkash() { 
-            if (currentUser?.bkashNumber) copyToClipboard(currentUser.bkashNumber); 
-        }
-        
-        function copyNagad() { 
-            if (currentUser?.nagadNumber) copyToClipboard(currentUser.nagadNumber); 
-        }
+        }, 30000);
     </script>
 </body>
 </html>
