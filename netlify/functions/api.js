@@ -1,18 +1,14 @@
+// API ফাংশন - সম্পূর্ণ কোড
 exports.handler = async (event) => {
-    // Log everything for debugging
-    console.log('Method:', event.httpMethod);
-    console.log('Path:', event.path);
-    console.log('Body:', event.body);
-
     // CORS headers
     const headers = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
         'Content-Type': 'application/json'
     };
 
-    // Handle OPTIONS request (for CORS)
+    // OPTIONS request (for CORS preflight)
     if (event.httpMethod === 'OPTIONS') {
         return {
             statusCode: 200,
@@ -21,28 +17,30 @@ exports.handler = async (event) => {
         };
     }
 
-    // Handle POST request to create-link
-    if (event.path.includes('/create-link') && event.httpMethod === 'POST') {
+    const path = event.path.replace('/.netlify/functions/api', '');
+    
+    // Create link endpoint
+    if (path === '/create-link' && event.httpMethod === 'POST') {
         try {
-            // Parse the request body
             const body = JSON.parse(event.body || '{}');
             
             // Generate username
             const username = (body.name || 'user').replace(/\s+/g, '') + 
                             Math.floor(Math.random() * 1000);
             
-            // Success response
+            // পুরো URL তৈরি করুন
+            const fullLink = `https://rabby-eid-salami.netlify.app/salami-link.html?user=${username}`;
+            
             return {
                 statusCode: 200,
                 headers,
                 body: JSON.stringify({
                     success: true,
-                    link: `/salami-link.html?user=${username}`,
+                    link: fullLink,  // এখন পুরো URL দেখাবে
                     username: username
                 })
             };
         } catch (error) {
-            // Error response
             return {
                 statusCode: 400,
                 headers,
@@ -54,27 +52,13 @@ exports.handler = async (event) => {
         }
     }
 
-    // Handle GET request to health check
-    if (event.path.includes('/health')) {
-        return {
-            statusCode: 200,
-            headers,
-            body: JSON.stringify({
-                success: true,
-                message: 'API is healthy'
-            })
-        };
-    }
-
-    // Default response for other routes
+    // Default response
     return {
         statusCode: 200,
         headers,
         body: JSON.stringify({
             success: true,
-            message: 'API is working',
-            path: event.path,
-            method: event.httpMethod
+            message: 'API is working'
         })
     };
 };
